@@ -1,0 +1,210 @@
+#ifndef _GLOBAL_H
+#define _GLOBAL_H
+
+template<class T>
+class NODE {
+private:
+	NODE<T>* link;
+	T data;
+public:
+	NODE() :link(NULL) {};
+	NODE(T d);
+	void Setlink(NODE<T>*);
+	void Setdata(T data);
+	NODE<T>* Getlink();
+	T&  Getdata();
+	~NODE() {};
+};
+template<class T>NODE<T>::NODE(T d)
+{
+	link = NULL
+	data = d;
+}
+
+template<class T> void NODE<T>::Setlink(NODE<T>* p)
+{
+	link = p;
+}
+
+template<class T> void NODE<T>::Setdata(T d)
+{
+	data = d;
+}
+
+template<class T> NODE<T>* NODE<T>::Getlink()
+{
+	return link;
+}
+
+template<class T> T& NODE<T>::Getdata()
+{
+	return data;
+}
+
+template<class T>
+class LIST {
+private:
+	NODE<T>* header;
+	NODE<T>* tailer;
+public:
+	LIST() {};
+	LIST(NODE<T>* a, NODE<T> b) :header(a), tailer(b) {};
+	~LIST() {};
+
+	bool AddTail(T value);
+	bool RemoveTail();
+	bool InsertAt(int index, T vlaue);
+	bool RemoveAt(int index);
+
+	T& GetAt(int index);
+	bool IsEmpty();
+	int GetCount();
+	void RemoveAll();
+
+	NODE<T>* GetNodeAt(int index);
+	NODE<T>* GetHeader();
+	NODE<T>* GetTailer();
+	NODE<T>* GetAt(int index);
+	NODE<T>* GetCur();
+	NODE<T>* TowardCur();
+};
+
+template<class T> bool LIST<T>::AddTail(T value)
+{
+	NODE<T>* add = new NODE<T>(value);
+	tailer->Setlink(add);
+	tailer = talier->Getlink();
+	tailer->Setlink(NULL);
+
+	if (tailer !=NULL)
+		return true;
+	else
+		return false;
+}
+
+template<class T> bool LIST<T>::RemoveTail()
+{
+	return RemoveAt(this->GetCount() - 1);
+}
+
+template<class T>bool LIST<T>::InsertAt(int index, T vlaue)
+{
+	if (index > this->GetCount() - 1 || index < 0) {
+	cout << "invalide index!";
+	return flase;
+	}
+	NODE<T>* add = NODE<T>(value);
+	NODE<T>* cur = header;
+	for (int i = 0; i < index ; i++)                //while(index)   --index
+	{
+		cur = cur->Getlink();
+	}
+	add->Setlink(cur->Getlink());
+	cur->Setlink(add);
+	if (cur->Getlink() != NULL)
+		return true;
+	else
+		return false;
+}
+
+template<class T> bool LIST<T>::RemoveAt(int index)
+{
+	if (index > this->GetCount() - 1 || index < 0) {
+		cout << "invalide index!";
+		return flase;
+	}
+	NODE<T>* precur = header;
+	NODE<T>* cur = header->Getlink();
+	for (int i = 0; i < index; i++)
+	{
+		precur = cur;
+		cur = cur->Getlink();
+	}
+	if (cur == tailer)
+		tailer = precur;
+	precur->Setlink(cur->Getlink());
+	delete cur;
+	if (precur!= NULL  )#???
+		return true;
+	else
+		return false;
+}
+
+template<class T> T& LIST<T>::GetAt(int index)
+{
+	if (index > this->GetCount() - 1 || index < 0) {
+		cout << "invalide index!";
+		return flase;
+	}
+	NODE<T>* cur = header;
+	for (int i = 0; i <= index; i++)
+	{
+		cur = cur->Getlink();
+	}
+	return cur->Getdata();
+}
+
+template<class T> bool LIST<T>::IsEmpty()
+{
+	return header->Getlink() == NULL;
+}
+
+template<class T> int LIST<T>::GetCount()
+{
+	int i = 1;
+	NODE<T>* cur = header;
+	while (cur != tailer)
+	{
+		cur = cur->Getlink();
+		i++;
+	}
+	return i;
+}
+
+template<class T>void LIST<T>::RemoveAll()
+{
+	NODE<T>* cur = NULL;
+	while (header->Getlink() != NULL)
+	{
+		cur = header->Getlink();
+		header->Setlink(cur->Getlink());
+		delete cur;
+	}
+	tailer = header;  //置表尾为表头处
+}
+
+template<class T> NODE<T>*  LIST<T>::GetNodeAt(int index)
+{
+	if (index > this->GetCount() - 1 || index < 0) {
+		cout << "invalide index!";
+		return flase;
+	}
+	NODE<T>* cur = header->Getlink();
+	while (index)
+	{
+		cur = cur->Getlink();
+		--index;
+	}
+	return cur;
+}
+template<class T>NODE<T>* LIST<T>::GetHeader()
+{
+	return header;
+}
+
+template<class T>NODE<T>* LIST<T>::GetTailer()
+{
+	return tailer;
+}
+
+template<class T>NODE<T>* LIST<T>::GetCur()
+{
+	return cur;
+}
+
+template<class T>NODE<T>* LIST<T>::TowardCur()
+{
+	cur = cur->Getlink();
+	return cur;
+}
+#endif
